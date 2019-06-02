@@ -66,3 +66,8 @@ var cards = [
 * [PSD-исходник](source/page.psd);
 * [страница в разных состояниях](images/);
 * [примеры тестовых данных](data/).
+
+## Решение
+
+* Стартовая страница: [index.html](source/index.html) 
+
