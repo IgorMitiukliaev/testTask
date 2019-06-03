@@ -7,16 +7,12 @@
 
 </head>
 <body>
-<div>
+<div class="header">
     <input type="file" class="my-btn" id="files" name="files[]"/>
-</div>
-<div>
     <input type="button" class="my-btn" id="back" value="Назад"/>
 </div>
-<output id="fileOutput"></output>
 
 <div class="container"></div>
-
 <script id="card" type="text/x-handlebars-template">
     <div class="card {{type}}">
         <div class="ellipse"><p class="card-num">{{index}}</p></div>

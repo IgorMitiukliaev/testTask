@@ -2,7 +2,6 @@ $(document).ready(function ($) {
 	$.noConflict();
 	var $cardsStack = jQuery('.container');
 	var cardsObject = [];
-	var historySteps = 0;
 
 	jQuery('#files').change(fileSelect);
 	jQuery('#back').click(back);
@@ -13,9 +12,9 @@ $(document).ready(function ($) {
 		var file = files[0];
 		var reader = new FileReader();
 
-		reader.onload = function (e) {
+		reader.onload = function (event) {
 			var output = jQuery("#fileOutput");
-			var data = e.target.result;
+			var data = event.target.result;
 			output.textContent = data;
 			cardsObject = loadCardsStack(data);
 			render(cardsObject);
@@ -31,21 +30,21 @@ $(document).ready(function ($) {
 		return cards.slice();
 	}
 
-	function manageCards(e) {
+	function manageCards(event) {
 		console.log("Manage");
-		var stateObject = {cardsObject: cardsObject, historySteps: historySteps};
-		history.pushState(stateObject, "");
-		++historySteps;
-		if (e.shiftKey && e.altKey) {
+
+		if (event.shiftKey && event.altKey) {
 			cardsObject.push({type: 'wide'});
-		} else if (e.shiftKey) {
+		} else if (event.shiftKey) {
 			cardsObject.push({type: 'narrow'});
 		} else {
-			cardsObject.splice(cards.length - 1, 1)
+			cardsObject.splice(-1, 1)
 		}
 		render(cardsObject);
-		console.log(cardsObject);
-		console.log(window.history.state.cardsObject);
+		console.log("Manage");
+		var stateObject = {cardsObject: cardsObject};
+		history.pushState(stateObject, "");
+		console.log(history.state.cardsObject);
 	}
 
 	function render(c) {
@@ -61,14 +60,13 @@ $(document).ready(function ($) {
 			};
 			var template = Handlebars.compile(jQuery('#card').html());
 			$cardsStack.append(template(context));
-			console.log(index + " " + e.type);
 		});
 		jQuery('.card:last').click(e => manageCards(e));
 	}
 
 	function back() {
 		console.log("Back");
-		history.back();
+		history.go(-1);
 		var c = history.state.cardsObject;
 		console.log(c);
 		render(c);
